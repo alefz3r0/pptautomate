@@ -17,9 +17,9 @@ and the Groovy Script can look something like
 
 ```
 pptAutomate
-	.withAppendTemplateSlides([1, 2])
-		.selectShapesMatchingRegex("TEXT.*")
-			.setTextHtml("<ul><li>List item #1</li><li>List item #2</li></ul>")
+    .withAppendTemplateSlides([1, 2])
+        .selectShapesMatchingRegex("TEXT.*")
+            .setTextHtml("<ul><li>List item #1</li><li>List item #2</li></ul>")
 ```
 
 Both PPT Template and the Groovy Script are expected as InputStream, and the processed PPT is written in an OutputStream.
