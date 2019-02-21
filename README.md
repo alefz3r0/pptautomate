@@ -134,6 +134,13 @@ This Action Command is used to delete a shape.
 outputPpt.delete(size);
 ```
 ### Replace with Image
+This Action Command is used to replace a shape with an image. The shape will be deleted and replaced with a different shape with the same Z-Index but a different name - the original name of the shape will be lost. The image will be aligned with the top-left border of the original shape. If keepAspectRatio is true, the picture will fit the original shape rectangle by mantaining its proportions - default is true.
+```
+outputPpt.replaceWithImg(img, keepAspectRatio);
+outputPpt.replaceWithImg(img);
+```
+* img is a Base64Image object contained in the pptautomate library that can be instantiated with "new Base64Image(byte[] data, PictureType type)"
+* keepAspectRatio is a boolean indicating if the aspect ratio of the img is to be preserved
 ### Set HTML Text
 ### Process Groovy GString
 
