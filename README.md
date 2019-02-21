@@ -142,12 +142,58 @@ outputPpt.replaceWithImg(img);
 * img is a Base64Image object contained in the pptautomate library that can be instantiated with "new Base64Image(byte[] data, PictureType type)"
 * keepAspectRatio is a boolean indicating if the aspect ratio of the img is to be preserved
 ### Set HTML Text
+This Action Command is used to fully replace the text of a shape. Keeping a minimal text into the shape of the Template PPT is strongly suggested, since pptautomate will take the font family, font size, and color of the first Text Run (snippet of text within the same paragraph with uniform properties), and alignment of the first Text Paragraph of the shape.
+
+Plain text is accepted as well as some supported HTML tags:
+
+| HTML Tag    | Effect                                                                |
+| ----------- | --------------------------------------------------------------------- |
+| \<strong\>  | Bold                                                                  |
+| \<em\>      | Italic                                                                |
+| \<u\>       | Underlined                                                            |
+| \<ul\>      | Bullet Points (even nested for more levels)                           |
+| \<ol\>      | Numbered list (even nested, but uses arabicPeriod schema by default)  |
+| \<br/\>     | Line Break                                                            |
+| \<p\>       | New Paragraph                                                         |
+
+```
+outputPpt.setTextHtml(string);
+```
 ### Process Groovy GString
+This Action Command allows to process shape text as Groovy strings (GString). All Text Runs of the shape are separately treated as GStrings and processed by the Groovy shell. It is important that expressions are contained into the same Text Run in order for the command to work and not result in exceptions. Please note that also underlined words for grammar corrections are processed as different Text Runs by PowerPoint - selecting "Ignore all" on the underlined word solves this issue. Keeping the processing at the Text Run level preserves the formatting (e.g. bold, font changes, bullet points) of the whole text of the shape.
 
-
+All variables passed to the binding of the PptAutomate instance are also available to the Groovy shell used for this command - see "Passing variables to the Groovy shell" section below.
+```
+outputPpt.processText();
+```
 ## Groovy Scripts
-TBD
-### Binding and Variables
+While Action Commands can be simply provided into the Java code, it can be useful to dynamically retrieve - or compose - a Groovy script. The script does not need to import PptAutomate, nor to return anything: PptAutomate adds these codelines for you and also passes the PptAutomate instance to the binding of the Groovy shell, the variable is called outputPpt.
 
+Example Groovy script can look like:
+```
+outputPpt
+	.withAppendTemplateSlides([1, 2])
+		.selectShapesMatchingRegex("TEXT.*")
+			.processText()
+	.selectAllOutputSlides()
+		.selectAllShapes()
+		.selectShapes("LOGO")
+		.replaceWithImg(img)
+;
+```
+
+The Groovy script can be executed with:
+```
+outputPpt.executeGroovyScript(groovyScriptInputStream);
+```
+* groovyScriptInputStream is the Groovy script provided as InputStream
+### Passing variables to the Groovy shell
+Java objects can be made available to the Groovy shell by passing variables to the shell binding, e.g.:
+```
+outputPpt.getBinding().setVariable("num", 4);
+```
 ## Saving the Output PPT
-TBD
+The Output PPT needs to be finalized before being written to an OutputStream, and a single method does this:
+```
+outputPpt.finalizeAndWritePpt(outputStream);
+```
