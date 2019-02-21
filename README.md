@@ -103,13 +103,40 @@ pptAutomate.selectShapesMatchingRegex(regex);
 ```
 
 ## Action Commands
+Action Commands are used to perform various actions on Output PPT shapes. Actions will not have any effect on Template PPT shapes. Action Commands methods must be called after selection of at least one shape - they will not have effect otherwise. Once called, Action Commands will be applied to all selected shapes sequentially.
+### Fill Color
+This Action Command is used to set the fill color of a shape.
+```
+pptAutomate.fillColor(colorString);
+pptAutomate.fillColor(color);
+```
+* colorString is a String representation of a color - supported formats are rgb and hex (e.g. "rgb(0,0,0)" and "#000000")
+* color is a java.awt.Color
+### Move
+This Action Command is used to move a shape within the containing slide.
+```
+pptAutomate.move(position);
+pptAutomate.move(position, isRelative);
+```
+* position is a Position object contained in the pptautomate library that can be instantiated with "new Position(Double x, Double y)"
+* isRelative is a boolean indicating if position indicates absolute coordinates or a relative displacement
+### Resize
+This Action Command is used to resize a shape.
+```
+pptAutomate.resize(size);
+pptAutomate.resize(size, isRelative);
+```
+* size is a Size object contained in the pptautomate library that can be instantiated with "new Size(Double w, Double h)"
+* isRelative is a boolean indicating if size indicates absolute measures or a relative displacement
+### Delete
+### Replace with Image
+### Set HTML Text
+### Process Groovy GString
 
-TBD
 
 ## Groovy Scripts
-
 TBD
+### Binding and Variables
 
 ## Saving the Output PPT
-
 TBD
