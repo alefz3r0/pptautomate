@@ -7,15 +7,15 @@ PPT Automate creates PowerPoint presentations starting from a PPT template, data
 Processing a PPT can be as simple as
 
 ```
-PptAutomate pptAutomate = new PptAutomate(classloader.getResourceAsStream("template.pptx"));
-pptAutomate.executeGroovyScript(classloader.getResourceAsStream("script.groovy"));
-pptAutomate.finalizeAndWritePpt(new FileOutputStream(file));
+PptAutomate outputPpt = new PptAutomate(classloader.getResourceAsStream("template.pptx"));
+outputPpt.executeGroovyScript(classloader.getResourceAsStream("script.groovy"));
+outputPpt.finalizeAndWritePpt(new FileOutputStream(file));
 ```
 
 and the Groovy Script can look something like
 
 ```
-pptAutomate
+outputPpt
     .withAppendTemplateSlides([1, 2])
         .selectShapesMatchingRegex("TEXT.*")
             .setTextHtml("<ul><li>List item #1</li><li>List item #2</li></ul>")
@@ -39,7 +39,7 @@ Please refer to the Available Action Commands section in order to know if specif
 PPT Automate can be instantiated with the following command
 
 ```
-PptAutomate pptAutomate = new PptAutomate(pptTemplateInputStream);
+PptAutomate outputPpt = new PptAutomate(pptTemplateInputStream);
 ```
 
 where pptTemplateInputStream is the PPT Template provided as InputStream.
@@ -50,7 +50,7 @@ Once initialized, PPT Automate will automatically setup an Output PPT, initially
 Template slides can be added to the Output PPT as follows:
 
 ```
-pptAutomate.withAppendTemplateSlides(templateSlideIndexes);
+outputPpt.withAppendTemplateSlides(templateSlideIndexes);
 ```
 
 where templateSlideIndexes is the ArrayList of indexes of the template slides. Index numbering starts from 1 for the first slide of the Template PPT.
@@ -65,24 +65,24 @@ Slide selection can be done at anytime after at least one slide has already been
 
 Selected slides indexes can be returned with
 ```
-ArrayList<Integer> targetSlides = pptAutomate.getTargetSlides();
+ArrayList<Integer> targetSlides = outputPpt.getTargetSlides();
 ```
 
 #### Select all slides
 ```
-pptAutomate.selectAllOutputSlides();
+outputPpt.selectAllOutputSlides();
 ```
 #### Select a slide range
 ```
-pptAutomate.selectOutputSlides(idxStart, idxStop);
+outputPpt.selectOutputSlides(idxStart, idxStop);
 ```
 #### Select some slides
 ```
-pptAutomate.selectOutputSlides(idxArrayList);
+outputPpt.selectOutputSlides(idxArrayList);
 ```
 #### Select one slide
 ```
-pptAutomate.selectOutputSlide(idx);
+outputPpt.selectOutputSlide(idx);
 ```
 
 ### Selecting shapes
@@ -90,16 +90,16 @@ Shape selection occurs within the scope of selected slides. Shapes can be select
 
 Selected shapes can be returned with
 ```
-List<XSLFShape> targetSlides = pptAutomate.getTargetShapes();
+List<XSLFShape> targetSlides = outputPpt.getTargetShapes();
 ```
 
 #### Select shapes by name
 ```
-pptAutomate.selectShapes(name);
+outputPpt.selectShapes(name);
 ```
 #### Select shapes by name pattern (regex)
 ```
-pptAutomate.selectShapesMatchingRegex(regex);
+outputPpt.selectShapesMatchingRegex(regex);
 ```
 
 ## Action Commands
@@ -107,28 +107,32 @@ Action Commands are used to perform various actions on Output PPT shapes. Action
 ### Fill Color
 This Action Command is used to set the fill color of a shape.
 ```
-pptAutomate.fillColor(colorString);
-pptAutomate.fillColor(color);
+outputPpt.fillColor(colorString);
+outputPpt.fillColor(color);
 ```
 * colorString is a String representation of a color - supported formats are rgb and hex (e.g. "rgb(0,0,0)" and "#000000")
 * color is a java.awt.Color
 ### Move
 This Action Command is used to move a shape within the containing slide.
 ```
-pptAutomate.move(position);
-pptAutomate.move(position, isRelative);
+outputPpt.move(position);
+outputPpt.move(position, isRelative);
 ```
 * position is a Position object contained in the pptautomate library that can be instantiated with "new Position(Double x, Double y)"
 * isRelative is a boolean indicating if position indicates absolute coordinates or a relative displacement
 ### Resize
 This Action Command is used to resize a shape.
 ```
-pptAutomate.resize(size);
-pptAutomate.resize(size, isRelative);
+outputPpt.resize(size);
+outputPpt.resize(size, isRelative);
 ```
 * size is a Size object contained in the pptautomate library that can be instantiated with "new Size(Double w, Double h)"
 * isRelative is a boolean indicating if size indicates absolute measures or a relative displacement
 ### Delete
+This Action Command is used to delete a shape.
+```
+outputPpt.delete(size);
+```
 ### Replace with Image
 ### Set HTML Text
 ### Process Groovy GString
