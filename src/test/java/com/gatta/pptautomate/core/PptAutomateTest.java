@@ -1,4 +1,4 @@
-package com.gatta.pptautomate;
+package com.gatta.pptautomate.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
