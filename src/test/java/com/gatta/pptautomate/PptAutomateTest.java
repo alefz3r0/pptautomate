@@ -21,11 +21,11 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.gatta.pptautomate.PptAutomate;
+import com.gatta.pptautomate.core.PptAutomate;
 
 public class PptAutomateTest {
 
-	private PptAutomate pptAutomate;
+	private PptAutomate outputPpt;
 	private static InputStream templateIs;
 		
 	@AfterAll
@@ -36,7 +36,7 @@ public class PptAutomateTest {
 	@BeforeEach
 	public void reset() throws IOException {
 		templateIs = Thread.currentThread().getContextClassLoader().getResourceAsStream("test_template.pptx");
-		pptAutomate = new PptAutomate(templateIs);
+		outputPpt = new PptAutomate(templateIs);
 	}
 	
 	@Test
@@ -45,11 +45,11 @@ public class PptAutomateTest {
 		templateSlidesIdx.add(1);
 		templateSlidesIdx.add(2);
 		
-		pptAutomate
+		outputPpt
 			.withAppendTemplateSlides(templateSlidesIdx)
 			.withAppendTemplateSlides(templateSlidesIdx);
 		
-		XMLSlideShow outPpt = getOutputPpt(pptAutomate);
+		XMLSlideShow outPpt = getOutputPpt(outputPpt);
 		
 		assertEquals(4, outPpt.getSlides().size());
 	}
@@ -59,7 +59,7 @@ public class PptAutomateTest {
 		ArrayList<Integer> templateSlidesIdx = new ArrayList<>();
 		templateSlidesIdx.add(3);
 		
-		assertThrows(IndexOutOfBoundsException.class, ()->{pptAutomate.withAppendTemplateSlides(templateSlidesIdx);});
+		assertThrows(IndexOutOfBoundsException.class, ()->{outputPpt.withAppendTemplateSlides(templateSlidesIdx);});
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class PptAutomateTest {
 		templateSlidesIdx.add(1);
 		templateSlidesIdx.add(2);
 		
-		pptAutomate
+		outputPpt
 			.withAppendTemplateSlides(templateSlidesIdx)
 			.withAppendTemplateSlides(templateSlidesIdx)
 				.selectShapes("BOX")
@@ -78,10 +78,10 @@ public class PptAutomateTest {
 		targetSlides.add(3);
 		targetSlides.add(4);
 		
-		XMLSlideShow out = getOutputPpt(pptAutomate);
+		XMLSlideShow out = getOutputPpt(outputPpt);
 		Color c = new Color(0, 0, 0);
 		
-		assertEquals(targetSlides, pptAutomate.getTargetSlides());
+		assertEquals(targetSlides, outputPpt.getTargetSlides());
 		assertNotEquals(((XSLFSimpleShape)getShapes(out.getSlides().get(0),"BOX").get(0)).getFillColor(), c);
 		assertEquals(((XSLFSimpleShape)getShapes(out.getSlides().get(2),"BOX").get(0)).getFillColor(), c);
 	}
@@ -91,22 +91,15 @@ public class PptAutomateTest {
 		ArrayList<Integer> templateSlidesIdx = new ArrayList<>();
 		
 		assertThrows(IllegalArgumentException.class, ()->{
-			pptAutomate.withAppendTemplateSlides(templateSlidesIdx);			
+			outputPpt.withAppendTemplateSlides(templateSlidesIdx);			
 		});
 		
 	}
 	
 	@Test
 	public void cannotSelectWithNoOuputSlides() {
-		ArrayList<Integer> templateSlidesIdx = new ArrayList<>();
-		templateSlidesIdx.add(1);
-		templateSlidesIdx.add(2);
-		
-		pptAutomate
-			.withAppendTemplateSlides(templateSlidesIdx);
-		
 		assertThrows(IllegalStateException.class, ()->{
-			pptAutomate.selectAllOutputSlides();
+			outputPpt.selectAllOutputSlides();
 		});
 	}
 	
