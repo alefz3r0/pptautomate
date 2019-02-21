@@ -1,0 +1,8 @@
+/target/
+/inputs/
+/.settings/
+/doc/
+/.project
+/.classpath
+/ppt-automate.log.txt
+/outputs/
