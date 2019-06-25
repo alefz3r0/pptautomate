@@ -150,4 +150,49 @@ public class PptAutomate implements PptAutomateInterface {
 	public PptAutomateBase selectAllOutputSlides() {
 		return pptAutomate.selectAllOutputSlides();
 	}
+
+	@Override
+	public PptAutomateBase withAppendTemplateSlides(Integer start, Integer stop) {
+		return withAppendTemplateSlides(start, stop);
+	}
+
+	@Override
+	public PptAutomateBase withAppendTemplateSlide(Integer slide) {
+		return withAppendTemplateSlide(slide);
+	}
+
+	@Override
+	public PptAutomateBase selectOutputSlides(int from, int to) {
+		return selectOutputSlides(from, to);
+	}
+
+	@Override
+	public PptAutomateBase selectOutputSlide(Integer i) {
+		return selectOutputSlide(i);
+	}
+
+	@Override
+	public PptAutomateBase fillColor(String color) {
+		return fillColor(color);
+	}
+
+	@Override
+	public PptAutomateBase replaceWithImg(Base64Image img) {
+		return replaceWithImg(img);
+	}
+
+	@Override
+	public PptAutomateBase move(Position position) {
+		return move(position);
+	}
+
+	@Override
+	public PptAutomateBase resize(Size size) {
+		return resize(size);
+	}
+
+	@Override
+	public PptAutomateBase processText() {
+		return processText();
+	}
 }

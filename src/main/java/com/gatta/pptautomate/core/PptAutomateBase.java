@@ -64,18 +64,6 @@ abstract class PptAutomateBase implements PptAutomateInterface {
 	protected abstract void checkTargetSlideIdx(List<Integer> idx);
 	
 	protected abstract void resetTargetShapes();
-
-	/*
-	public final PptAutomateBase selectOutputSlides(ArrayList<Integer> slidesIdx) {
-		checkTargetSlideIdx(slidesIdx);
-		
-		logger.debug("Output slides selected: {}", slidesIdx);
-		targetSlides = slidesIdx;
-		resetTargetShapes();
-		
-		return this;
-	}
-	*/
 	
 	public final PptAutomateBase selectOutputSlide(Integer i) {
 		return selectOutputSlides(i, i);

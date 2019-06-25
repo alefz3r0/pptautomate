@@ -16,10 +16,15 @@ import groovy.lang.GroovyShell;
 
 interface PptAutomateInterface {
 
+	/* TEMPLATE SLIDES COPY METHODS */
 	public PptAutomateBase withAppendTemplateSlides(ArrayList<Integer> templateSlidesIdx);
+	public PptAutomateBase withAppendTemplateSlides(Integer start, Integer stop);
+	public PptAutomateBase withAppendTemplateSlide(Integer slide);
 	
 	/* OUTPUT SLIDES SELECT METHODS */
 	public PptAutomateBase selectOutputSlides(ArrayList<Integer> slidesIdx);
+	public PptAutomateBase selectOutputSlides(int from, int to);
+	public PptAutomateBase selectOutputSlide(Integer i);
 	public PptAutomateBase selectAllOutputSlides();
 	
 	/* SHAPES SELECT METHODS */
@@ -29,11 +34,16 @@ interface PptAutomateInterface {
 	
 	/* SHAPE ACTIONS METHODS */
 	public PptAutomateBase fillColor(Color color);
+	public PptAutomateBase fillColor(String color);
 	public PptAutomateBase replaceWithImg(Base64Image img, Boolean keepAspectRatio);
+	public PptAutomateBase replaceWithImg(Base64Image img);
 	public PptAutomateBase move(Position position, Boolean relative);
+	public PptAutomateBase move(Position position);
 	public PptAutomateBase resize(Size size, Boolean relative);
+	public PptAutomateBase resize(Size size);
 	public PptAutomateBase setTextHtml(String string);
 	public PptAutomateBase processText(Boolean processHtml);
+	public PptAutomateBase processText();
 	public PptAutomateBase delete();
 	
 	/* FINALIZE PPT METHODS */
